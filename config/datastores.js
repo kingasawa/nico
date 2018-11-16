@@ -35,7 +35,7 @@ module.exports.datastores = {
   default: {
 
     adapter: require('sails-postgresql'),
-    url: 'postgresql://postgres@localhost:5435/syncfab'
+    url: 'postgresql://postgres@localhost:5435/nico'
     /***************************************************************************
     *                                                                          *
     * Want to use a different database during development?                     *
