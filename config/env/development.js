@@ -21,10 +21,10 @@
 
 // console.log('process.env', process.env);
 const POSTGRES_HOST=process.env.POSTGRES_HOST || 'localhost'
-const POSTGRES_PASSWORD=process.env.POSTGRES_PASSWORD || 'Tu)!Tr#H4ck'
+const POSTGRES_PASSWORD=process.env.POSTGRES_PASSWORD || 'Diablo321'
 const POSTGRES_PORT=process.env.POSTGRES_PORT || 5432
-const POSTGRES_USER=process.env.POSTGRES_USER || 'nicecode'
-const POSTGRES_DB=process.env.POSTGRES_DB || 'postgres'
+const POSTGRES_USER=process.env.POSTGRES_USER || 'postgres'
+const POSTGRES_DB=process.env.POSTGRES_DB || 'nico'
 
 module.exports = {
 
