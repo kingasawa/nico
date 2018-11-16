@@ -1,0 +1,54 @@
+
+<%- partial ('../common/menu.ejs') %>
+
+<div class="ui bottom attached segment">
+  <%- partial ('../common/sidebar.ejs') %>
+  <div class="container pusher">
+
+    <div class="ui small breadcrumb">
+      <a href="/ucp" class="section">Dashboard</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Products</div>
+    </div>
+
+    <div class="ui basic segment">
+      <a href="/ucp/product/add" class="ui orange basic button">
+        <i class="icon plus"></i>
+        Add New Product
+      </a>
+
+      <a href="/ucp/product/quick-add" class="ui green basic button">
+        <i class="icon plus circle"></i>
+        Quick Add Product
+      </a>
+
+
+      <table class="ui orange table">
+        <thead>
+        <tr>
+          <th>Images</th>
+          <th>Title</th>
+          <th>Brand</th>
+          <th>Gtin</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.each(products,function(product){ %>
+          <tr>
+            <td class="product-img"><img width=80 src="<%= _.get(product,'images[0].src','') %>"></td>
+            <td class="product-title"><%= _.get(product,'title','') %></td>
+            <td class="product-brand"><%= _.get(product,'brand','') %></td>
+            <td class="product-gtin"><%= _.get(product,'gtin','') %></td>
+            <td class="product-price"><h3 class="ui blue header">$<%= _.get(product,'price','') %></h3></td>
+            <td class="product-stock"><h3 class="ui header"><%= _.get(product,'stock','') %></h3></td>
+            <td class="product-status"><span class="ui horizontal label <%= _.get(product,'status','') %>"><%= _.get(product,'status','') %></span></td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

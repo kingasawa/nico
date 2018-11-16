@@ -1,0 +1,29 @@
+
+<%- partial ('../common/menu.ejs') %>
+
+<div class="ui bottom attached segment">
+  <%- partial ('../common/sidebar.ejs') %>
+  <div class="container pusher">
+
+    <div class="ui small breadcrumb">
+      <a href="/ucp" class="section">Dashboard</a>
+      <i class="right chevron icon divider"></i>
+      <a href="/ucp/shop" class="section">Shop</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Add Shop</div>
+    </div>
+
+    <div class="ui piled green segment" style="max-width: 500px">
+      <h2 class="ui header">Connect Shopify Store</h2>
+      <p>Easily create and fulfil products for your existing Shopify Store with Represent. Connect your store to get started.</p>
+      <form method="POST" action="/ucp/addShop">
+      <div class="ui fluid action input">
+        <input type="text" name="shop" placeholder="Input shop name">
+        <button class="ui button">.myshopify.com</button>
+      </div>
+      <div class="ui divider"></div>
+      <button type="submit" class="positive fluid ui button">Add Shop</button>
+      </form>
+    </div>
+  </div>
+</div>

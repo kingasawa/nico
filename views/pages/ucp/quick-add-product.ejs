@@ -1,0 +1,57 @@
+
+<%- partial ('../common/menu.ejs') %>
+
+<div class="ui bottom attached segment">
+  <%- partial ('../common/sidebar.ejs') %>
+  <div class="container pusher">
+
+    <div class="ui small breadcrumb">
+      <a href="/ucp" class="section">Dashboard</a>
+      <i class="right chevron icon divider"></i>
+      <a href="/ucp/product" class="section">Product</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Quick Add Product</div>
+    </div>
+
+    <div class="ui piled green segment" style="max-width: 500px">
+      <p>Easily get full data of product using Rest API</p>
+      <div class="ui action fluid input">
+        <input type="text" name="productId" placeholder="Product id">
+        <select id="apiPage" name="productPage" class="ui compact selection dropdown">
+          <option selected value="walmart">Walmart</option>
+          <option disabled value="amazon">Amazon</option>
+        </select>
+        <button class="ui teal right labeled icon button getProductData">
+          <i class="search icon"></i>
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div class="showProductData hidden">
+      <div class="ui divider"></div>
+      <h3 class="productTitle ui red header"></h3>
+      <h4 class="ui horizontal left header">
+        <i class="tag icon"></i>
+        Description
+      </h4>
+      <div class="ui segment itemDescription"><p class="productDescription"></p></div>
+      <h4 class="ui horizontal left header">
+        <i class="images icon"></i>
+        Images
+      </h4>
+      <div class="loadProductImages"></div>
+      <!--<p class="productDescription"></p>-->
+      <!--<div class="ui red segment productDescription"></div>-->
+
+      <h4 class="ui horizontal left header">
+        <i class="list ul icon"></i>
+        Details
+      </h4>
+      <div class="productDetails"></div>
+
+      <div class="ui divider"></div>
+      <button class="ui positive button fluid quickAddProduct">Add Product</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="loginPage" style="max-width: 500px;margin:0 auto;padding-top:100px">
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <img src="assets/images/logo.png" class="image">
+      <div class="content">
+        Log-in to your account
+      </div>
+    </h2>
+    <form class="ui large form"  method="POST" action="/login">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" name="username" value="<%= req.param('username') %>" placeholder="Enter Username">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" name="password" placeholder="Enter Password">
+          </div>
+        </div>
+        <button type="submit" class="large fluid ui button green">Login</button>
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      New to us? <a href="/register">Sign Up</a>
+    </div>
+  </div>
+</div>
+</div>

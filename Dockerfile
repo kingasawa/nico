@@ -1,0 +1,27 @@
+# specify the node base image with your desired version node:<version>
+FROM node:8
+MAINTAINER tam.du@syncfab.com
+
+# Get args from compose
+ARG AWS_REGION=region
+ARG POSTGRES_HOST=POSTGRES_HOST
+ARG POSTGRES_PASSWORD=POSTGRES_PASSWORD
+ARG POSTGRES_PORT=5432
+ARG POSTGRES_USER=postgres
+ARG POSTGRES_DB=syncfab
+
+# Parse to env
+ENV AWS_REGION=$AWS_REGION
+ENV POSTGRES_HOST=$POSTGRES_HOST
+ENV POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+ENV POSTGRES_PORT=$POSTGRES_PORT
+ENV POSTGRES_USER=$POSTGRES_USER
+ENV POSTGRES_DB=$POSTGRES_DB
+
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN yarn install
+COPY . .
+
+EXPOSE 3000
+CMD [ "yarn", "start" ]

@@ -1,0 +1,46 @@
+
+<%- partial ('../common/menu.ejs') %>
+
+<div class="ui bottom attached segment">
+  <%- partial ('../common/sidebar.ejs') %>
+  <div class="container pusher">
+
+    <div class="ui small breadcrumb">
+      <a href="/ucp" class="section">Dashboard</a>
+      <i class="right chevron icon divider"></i>
+      <div class="active section">Shop</div>
+    </div>
+
+    <div class="ui basic segment">
+      <a href="/ucp/shop/add" class="ui blue basic button">
+        <i class="icon plus"></i>
+        Add New Shop
+      </a>
+
+      <table class="ui orange table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Store Name</th>
+          <th>Owner</th>
+          <th>Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>1</td>
+          <td>webapp123.myshopify.com	</td>
+          <td>Admin</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>kingasawa.myshopify.com	</td>
+          <td>Admin</td>
+          <td></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
