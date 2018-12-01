@@ -9,7 +9,7 @@ $(function() {
       page: $('select[name=productPage]').val()
     }
 
-    socket.post('/ucp/getProductData',getData,function(result){
+    socket.post('/product/getProductData',getData,function(result){
       $('button.getProductData').removeClass('loading')
       console.log('getProductData result', result);
       if(result.status===200){
@@ -63,7 +63,7 @@ $(function() {
     if($('.productDetails .itemColor span').text().length === 0) {
       postData.color = []
     }
-    socket.post('/ucp/quickAddProduct',postData,function(result){
+    socket.post('/product/quickAddProduct',postData,function(result){
       $('button.quickAddProduct').removeClass('loading')
       if(result.error){
         noty({
@@ -78,5 +78,66 @@ $(function() {
       });
       $('.showProductData').addClass('hidden')
     })
+  })
+
+  //pick all product
+  $('input.choose-all-product').on('click',function(){
+    if(this.checked) {
+      console.log('select all')
+
+      $('input.choose-product-id:checkbox').each(function(){
+        $(this).parents('tr.tr-product').addClass('product-picked');
+        this.checked = true
+      })
+    } else {
+      console.log('select none')
+
+      $('input.choose-product-id:checkbox').each(function(){
+        $(this).parents('tr.tr-product').removeClass('product-picked');
+        this.checked = false
+      })
+    }
+    let countChecked = $('input.choose-product-id:checked').length;
+    console.log('countChecked', countChecked);
+    $('button.count-pickup span.update-val').text(countChecked);
+    if(countChecked < 1) {$('.show-count-pickup').fadeOut('slow')}
+    else {$('.show-count-pickup').fadeIn('slow') }
+  });
+
+  //pick up - 1 product
+  $('input.choose-product-id').on('click',function(){
+    let checked = parseInt($('button.count-pickup span.update-val').text());
+    if (this.checked) {
+      $('button.count-pickup span.update-val').text(checked+1)
+      $(this).parents('tr.tr-product').addClass('product-picked');
+    } else {
+      $(this).parents('tr.tr-product').removeClass('product-picked');
+      $('button.count-pickup span.update-val').text(checked-1)
+    }
+    let countChecked = $('input.choose-product-id:checked').length;
+    console.log('countChecked', countChecked);
+    if(countChecked < 1) {$('.show-count-pickup').fadeOut('slow');}
+    else {$('.show-count-pickup').fadeIn('slow') }
+  });
+
+
+  //SYNC PRODUCT
+  $('div.sync-product').click(function(){
+    let type = $(this).attr('data-text');
+    let countPushed;
+    let countSync;
+
+    let selectedProducts = $('tr.product-picked').map(function() {
+      let checkImg = $(this).find('td.product-image img').attr('src').length;
+      let checkGtin = $(this).find('td.product-gtin').text().length;
+      let checkStore = $(this).find('td.product-store').text().length;
+      let checkStatus = $(this).find('td.product-status').text();
+      if(checkStore === 0 && checkGtin > 0 && checkImg > 0 && checkStatus !== 'Disabled'){
+        return $(this).find('input.choose-product-id').data('product-id');
+      }
+    }).get();
+
+    countSync = selectedProducts.length;
+    console.log('sync product',{countSync,selectedProducts});
   })
 });

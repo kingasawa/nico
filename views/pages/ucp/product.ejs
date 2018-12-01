@@ -22,33 +22,106 @@
         Quick Add Product
       </a>
 
+      <!--<div style="display:none" class="show-count-pickup">-->
+        <!--<div class="btn-group button-pick">-->
+
+          <!--<button type="button" class="count-pickup btn">Choose <span class="update-val">0</span> Products</button>-->
+          <!--<div class="btn-group">-->
+            <!--<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">-->
+              <!--Bulk action <span class="caret"></span></button>-->
+            <!--<ul class="dropdown-menu" role="menu">-->
+
+                <!--<li><a class="picklist" data-text="sync_product" href="#"><i class="fa fa-refresh"></i> Sync product (Push to store)</a></li>-->
+                <!--<li><a class="picklist" data-text="unsync_product" href="#"><i class="fa fa-close"></i> Unsync product (Remove store)</a></li>-->
+                <!--<li><a class="picklist" data-text="restock_product" href="#"><i class="fa fa-refresh"></i> Restock (5)</a></li>-->
+
+              <!--&lt;!&ndash;<li class="divider"></li>&ndash;&gt;-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div style="display:none" class="ui buttons show-count-pickup">-->
+        <!--<button class="ui button count-pickup">-->
+          <!--Choose <span class="update-val">0</span> products-->
+        <!--</button>-->
+        <!--<button class="ui button">-->
+          <!--Bulk action-->
+        <!--</button>-->
+      <!--</div>-->
+
+      <div style="display:none" class="ui labeled buttons show-count-pickup">
+        <button class="ui button basic blue count-pickup">Choose <span class="update-val">0</span> product</button>
+        <div class="ui floating dropdown blue button">
+          Bulk action
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item sync-product"><i class="sync icon"></i> Sync product (push to store)</div>
+            <div class="item unsync-product"><i class="delete icon"></i> Unsync product (remove from store)</div>
+          </div>
+        </div>
+      </div>
 
       <table class="ui orange table">
         <thead>
         <tr>
+          <th class="collapsing">
+            <div class="ui checkbox">
+              <input type="checkbox" class="choose-all-product"><label></label>
+            </div>
+          </th>
+          <th>Store</th>
           <th>Images</th>
           <th>Title</th>
           <th>Brand</th>
           <th>Gtin</th>
           <th>Price</th>
           <th>Stock</th>
+          <th>Owner</th>
           <th>Status</th>
         </tr>
         </thead>
         <tbody>
         <% _.each(products,function(product){ %>
-          <tr>
-            <td class="product-img"><img width=80 src="<%= _.get(product,'images[0].src','') %>"></td>
+          <tr id="product-id-<%= product.id %>" class="tr-product">
+            <td class="collapsing">
+              <div class="ui checkbox">
+                <input type="checkbox" data-product-id="<%= product.id %>" class="choose-product-id"><label></label>
+              </div>
+            </td>
+            <td class="product-store"><%= _.get(product,'store','') %></td>
+            <td class="product-image"><img width=80 src="<%= _.get(product,'images[0].src','') %>"></td>
             <td class="product-title"><%= _.get(product,'title','') %></td>
             <td class="product-brand"><%= _.get(product,'brand','') %></td>
             <td class="product-gtin"><%= _.get(product,'gtin','') %></td>
             <td class="product-price"><h3 class="ui blue header">$<%= _.get(product,'price','') %></h3></td>
             <td class="product-stock"><h3 class="ui header"><%= _.get(product,'stock','') %></h3></td>
+            <td class="product-owner"><%= _.get(product,'owner','') %></td>
             <td class="product-status"><span class="ui horizontal label <%= _.get(product,'status','') %>"><%= _.get(product,'status','') %></span></td>
           </tr>
         <% }) %>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<div class="ui mini modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Select store to push
+  </div>
+  <div class="content">
+    <select class="ui fluid dropdown">
+      <% _.each(shops,function(shop){ %>
+        <option value="<%= shop.name %>"><%= shop.name %></option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="actions">
+    <div class="ui positive right labeled icon button">
+      Push now
+      <i class="checkmark icon"></i>
     </div>
   </div>
 </div>

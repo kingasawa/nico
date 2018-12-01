@@ -2,7 +2,7 @@ $(function() {
 
   $('.ui.sidebar').sidebar({
     context: $('.bottom.segment')
-  }).sidebar('attach events', '.menu .item');
+  }).sidebar('attach events', '.openSidebar');
 
   $('.ui.dropdown')
     .dropdown()
