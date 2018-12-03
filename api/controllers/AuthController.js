@@ -45,11 +45,11 @@ module.exports = {
           }
           sails.log.debug('info.message', info.message);
           sails.log.debug('info.user', user);
-          // return res.status(200).send({
-          //   ...user,
-          //   token
-          // })
-          return res.redirect('/ucp')
+          return res.status(200).send({
+            ...user,
+            token
+          })
+          // return res.redirect('/ucp')
         });
       }
 
