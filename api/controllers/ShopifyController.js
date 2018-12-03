@@ -74,7 +74,7 @@ module.exports = {
         createShopParams,
       })
 
-      Shop.create(createShopParams).exec((err,createShop) => {
+      Shop.create(createShopParams).then((createShop) => {
 
         let Shopify = new ShopifyApi({
           shop: params.shop,
@@ -194,7 +194,9 @@ module.exports = {
 
         res.redirect('/ucp/shop');
 
-      });
+      }).catch((err)=>{
+        console.log('err', err);
+      })
     });
   },
 
