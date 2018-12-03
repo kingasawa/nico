@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Shopifies
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-const { apiKey, apiSecret } = sails.config.custom
+const { shopifyApiKey, shopifySecret } = sails.config.custom
 
 module.exports = {
   sync: (req,res) => {
@@ -16,14 +16,14 @@ module.exports = {
       if (!foundShop) {
         var Shopify = new ShopifyApi({
           shop: params.shopifyname,
-          shopify_api_key: apiKey,
-          shopify_shared_secret: apiSecret,
-          shopify_scope: 'write_price_rules,write_products,read_orders,read_customers,write_customers,read_orders,write_orders,read_shipping,write_shipping,read_analytics',
+          shopify_api_key: shopifyApiKey,
+          shopify_shared_secret: shopifySecret,
+          shopify_scope: shopifyScope,
           redirect_uri: `https://${baseUrl}/shopify/sync_callback`,
           nonce: params.uid // you must provide a randomly selected value unique for each authorization request
         });
-        console.log('apiKey', apiKey);
-        console.log('apiSecret', apiSecret);
+        console.log('shopifyApiKey', shopifyApiKey);
+        console.log('shopifySecret', shopifySecret);
         console.log('Shopify.buildAuthURL()', Shopify.buildAuthURL());
         res.redirect(Shopify.buildAuthURL());
       } else {
@@ -39,12 +39,12 @@ module.exports = {
 
     let Shopify = new ShopifyApi({
       shop: params.shop,
-      shopify_api_key: apiKey,
-      shopify_shared_secret: apiSecret,
+      shopify_api_key: shopifyApiKey,
+      shopify_shared_secret: shopifySecret,
     });
     let postData = {
-      client_id:apiKey,
-      client_secret:apiSecret,
+      client_id:shopifyApiKey,
+      client_secret:shopifySecret,
       code:params.code
     };
 
@@ -87,7 +87,7 @@ module.exports = {
           }
           let Shopify = new ShopifyApi({
             shop: params.shop,
-            shopify_api_key: apiKey,
+            shopify_api_key: shopifyApiKey,
             access_token: data.access_token
           });
 
@@ -224,7 +224,7 @@ module.exports = {
     let findToken = await Promise.resolve(Shop.findOne({name: params.shop}).populate('shopifytoken'));
     var Shopify = new ShopifyApi({
       shop: params.shop,
-      shopify_api_key: apiKey,
+      shopify_api_key: shopifyApiKey,
       access_token: findToken.shopifytoken[0].accessToken,
     });
     Shopify.get('/admin/custom_collections.json',function(err,data){
@@ -255,7 +255,7 @@ module.exports = {
     Shop.findOne({name: shop}).populate('shopifytoken').exec((err,findToken)=>{
       const Shopify = new ShopifyApi({
         shop: shop,
-        shopify_api_key: apiKey,
+        shopify_api_key: shopifyApiKey,
         access_token: findToken.shopifytoken[0].accessToken,
       });
       Shopify.put('/admin/orders/'+params.orderid+'.json',updateData,(err,data)=>{
@@ -294,7 +294,7 @@ module.exports = {
     Shop.findOne({name: shop}).populate('shopifytoken').exec((err,findToken)=>{
       const Shopify = new ShopifyApi({
         shop: shop,
-        shopify_api_key: apiKey,
+        shopify_api_key: shopifyApiKey,
         access_token: findToken.shopifytoken[0].accessToken,
       });
       Shopify.put(`/admin/orders/${orderid}.json`,updateData, (err,data)=>{
@@ -442,7 +442,7 @@ module.exports = {
 
             let shopifyAuth = {
               shop:shop,
-              shopify_api_key: apiKey,
+              shopify_api_key: shopifyApiKey,
               access_token:findToken.shopifytoken[0].accessToken,
             };
 
@@ -513,7 +513,7 @@ module.exports = {
         Shop.findOne({name: item.shop}).populate('shopifytoken').exec((err,findToken)=>{
           let Shopify = new ShopifyApi({
             shop: item.shop,
-            shopify_api_key: apiKey,
+            shopify_api_key: shopifyApiKey,
             access_token: findToken.shopifytoken[0].accessToken,
           });
 
@@ -561,7 +561,7 @@ module.exports = {
         Shop.findOne({name: item.shop}).populate('shopifytoken').exec((err,findToken)=>{
           let Shopify = new ShopifyApi({
             shop: item.shop,
-            shopify_api_key: apiKey,
+            shopify_api_key: shopifyApiKey,
             access_token: findToken.shopifytoken[0].accessToken,
           });
 
@@ -585,7 +585,7 @@ module.exports = {
     Shop.findOne({name: shop}).populate('shopifytoken').exec((err,findToken)=>{
       let Shopify = new ShopifyApi({
         shop,
-        shopify_api_key: apiKey,
+        shopify_api_key: shopifyApiKey,
         access_token: findToken.shopifytoken[0].accessToken,
       });
 
@@ -605,7 +605,7 @@ module.exports = {
     Shop.findOne({name: shop}).populate('shopifytoken').exec((err,findToken)=>{
       let Shopify = new ShopifyApi({
         shop,
-        shopify_api_key: apiKey,
+        shopify_api_key: shopifyApiKey,
         access_token: findToken.shopifytoken[0].accessToken,
       });
 
