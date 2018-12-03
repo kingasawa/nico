@@ -3,6 +3,8 @@ const { paymentRequestRule } = sails.config.validate
 module.exports = {
 
   index: async(req,res) => {
+    console.log('req.user', req.user);
+    console.log('req.session', req.session);
     console.log('go ucp');
     return res.view('pages/ucp/index')
   },
