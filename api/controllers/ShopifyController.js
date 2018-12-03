@@ -50,6 +50,7 @@ module.exports = {
 
 
     Shopify.post('/admin/oauth/access_token', postData, (err,data) => {
+
       if(err) {
         return sails.log.error({
           controller: 'shopify',
@@ -58,7 +59,12 @@ module.exports = {
         })
       }
 
-      let createShopParams = {name:params.shop,owner:params.state};
+      let createShopParams = {
+        name: params.shop,
+        owner: params.state,
+        accessToken: data.access_token,
+        scope: data.scope
+      };
 
       sails.log.debug({
         controller: 'shopify',
@@ -70,146 +76,124 @@ module.exports = {
 
       Shop.create(createShopParams).exec((err,createShop) => {
 
-        let createData = {
-          accessToken:data.access_token,
-          scope:data.scope,
-          shop:createShop.id
-        }
+        let Shopify = new ShopifyApi({
+          shop: params.shop,
+          shopify_api_key: shopifyApiKey,
+          access_token: data.access_token
+        });
 
-        ShopifyToken.create(createData).exec((err,result)=> {
-          if(err) {
+        let orderCreateHook = {
+          webhook: {
+            "topic": "orders\/create",
+            "address": `https:\/\/${baseUrl}\/notification\/order?act=create&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',orderCreateHook, (err,orderCreate) => {
+          if(err){
             return sails.log.error({
               controller:'shopify',
-              action:'ShopifyToken.create',
+              action:'/admin/webhooks.json',
               error: err,
-              params: createData,
+              params: orderCreateHook,
             })
           }
-          let Shopify = new ShopifyApi({
-            shop: params.shop,
-            shopify_api_key: shopifyApiKey,
-            access_token: data.access_token
-          });
 
-          let orderCreateHook = {
-            webhook: {
-              "topic": "orders\/create",
-              "address": `https:\/\/${baseUrl}\/notification\/order?act=create&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',orderCreateHook, (err,orderCreate) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: orderCreateHook,
-              })
-            }
-
-          });
-
-
-          let orderUpdateHook = {
-            webhook: {
-              "topic": "orders\/updated",
-              "address": `https:\/\/${baseUrl}\/notification\/order?act=updated&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',orderUpdateHook, (err,orderUpdate) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: orderUpdateHook,
-              })
-            }
-          });
-
-          let productCreateHook = {
-            webhook: {
-              "topic": "products\/create",
-              "address": `https:\/\/${baseUrl}\/notification\/product?act=create&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',productCreateHook, (err,productCreate) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: productCreateHook,
-              })
-            }
-          });
-
-          let productDeleteHook = {
-            webhook: {
-              "topic": "products\/delete",
-              "address": `https:\/\/${baseUrl}\/notification\/product?act=delete&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',productDeleteHook, (err,productDelete) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: productDeleteHook,
-              })
-            }
-          });
-
-          let productUpdateHook = {
-            webhook: {
-              "topic": "products\/update",
-              "address": `https:\/\/${baseUrl}\/notification\/product?act=update&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',productUpdateHook, (err,productUpdate) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: productUpdateHook,
-              })
-            }
-          });
-
-          let appUninstallHook = {
-            webhook: {
-              "topic": "app\/uninstalled",
-              "address": `https:\/\/${baseUrl}\/notification\/app?act=uninstalled&shop=${params.shop}`, // Update new address when public
-              "format": "json"
-            }
-          };
-          Shopify.post('/admin/webhooks.json',appUninstallHook, (err,appUninstall) => {
-            if(err){
-              return sails.log.error({
-                controller:'shopify',
-                action:'/admin/webhooks.json',
-                error: err,
-                params: orderUpdateHook,
-              })
-            }
-          });
-
-          sails.log.debug({
-            controller: 'shopify',
-            action:'create_webhook',
-            message: 'success',
-            data: result,
-          })
-
-          res.redirect('/acp/store');
         });
+
+
+        let orderUpdateHook = {
+          webhook: {
+            "topic": "orders\/updated",
+            "address": `https:\/\/${baseUrl}\/notification\/order?act=updated&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',orderUpdateHook, (err,orderUpdate) => {
+          if(err){
+            return sails.log.error({
+              controller:'shopify',
+              action:'/admin/webhooks.json',
+              error: err,
+              params: orderUpdateHook,
+            })
+          }
+        });
+
+        let productCreateHook = {
+          webhook: {
+            "topic": "products\/create",
+            "address": `https:\/\/${baseUrl}\/notification\/product?act=create&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',productCreateHook, (err,productCreate) => {
+          if(err){
+            return sails.log.error({
+              controller:'shopify',
+              action:'/admin/webhooks.json',
+              error: err,
+              params: productCreateHook,
+            })
+          }
+        });
+
+        let productDeleteHook = {
+          webhook: {
+            "topic": "products\/delete",
+            "address": `https:\/\/${baseUrl}\/notification\/product?act=delete&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',productDeleteHook, (err,productDelete) => {
+          if(err){
+            return sails.log.error({
+              controller:'shopify',
+              action:'/admin/webhooks.json',
+              error: err,
+              params: productDeleteHook,
+            })
+          }
+        });
+
+        let productUpdateHook = {
+          webhook: {
+            "topic": "products\/update",
+            "address": `https:\/\/${baseUrl}\/notification\/product?act=update&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',productUpdateHook, (err,productUpdate) => {
+          if(err){
+            return sails.log.error({
+              controller:'shopify',
+              action:'/admin/webhooks.json',
+              error: err,
+              params: productUpdateHook,
+            })
+          }
+        });
+
+        let appUninstallHook = {
+          webhook: {
+            "topic": "app\/uninstalled",
+            "address": `https:\/\/${baseUrl}\/notification\/app?act=uninstalled&shop=${params.shop}`, // Update new address when public
+            "format": "json"
+          }
+        };
+        Shopify.post('/admin/webhooks.json',appUninstallHook, (err,appUninstall) => {
+          if(err){
+            return sails.log.error({
+              controller:'shopify',
+              action:'/admin/webhooks.json',
+              error: err,
+              params: orderUpdateHook,
+            })
+          }
+        });
+
+        res.redirect('/ucp/shop');
+
       });
     });
   },
