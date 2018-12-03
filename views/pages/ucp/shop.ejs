@@ -27,18 +27,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>1</td>
-          <td>webapp123.myshopify.com	</td>
-          <td>Admin</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>kingasawa.myshopify.com	</td>
-          <td>Admin</td>
-          <td></td>
-        </tr>
+        <% _.each(shops,function(shop){ %>
+          <tr>
+            <td><%= _.get(shop,'id','') %></td>
+            <td><%= _.get(shop,'name','') %></td>
+            <td><%= _.get(shop,'owner.username','') %></td>
+            <td></td>
+          </tr>
+        <% }) %>
         </tbody>
       </table>
     </div>
