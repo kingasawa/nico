@@ -9,7 +9,9 @@ module.exports = {
     let result = await Shopify.sync({shop,id})
     console.log('result', result);
     if(result.success) res.redirect(result.success)
-    res.json(result)
+    else {
+      res.json(result.error)
+    }
   }
 
 };

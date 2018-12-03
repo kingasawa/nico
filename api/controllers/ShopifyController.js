@@ -25,10 +25,9 @@ module.exports = {
         console.log('shopifyApiKey', shopifyApiKey);
         console.log('shopifySecret', shopifySecret);
         console.log('Shopify.buildAuthURL()', Shopify.buildAuthURL());
-        res.redirect(Shopify.buildAuthURL());
+        res.json({success:Shopify.buildAuthURL()});
       } else {
-        sails.sockets.broadcast(session_id,'shop/exist',{msg:'shop exist'});
-        res.json('exist');
+        res.json({error:'shop exist'});
       }
     });
   },
