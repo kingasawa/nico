@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing Shopifies
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-const { shopifyApiKey, shopifySecret } = sails.config.custom
+const { shopifyApiKey, shopifySecret, baseUrl } = sails.config.custom
 
 module.exports = {
   sync: (req,res) => {
