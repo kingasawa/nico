@@ -45,6 +45,8 @@ module.exports = {
           }
           sails.log.debug('info.message', info.message);
           sails.log.debug('info.user', user);
+          sails.log.debug('session', req.session);
+
           return res.status(200).send({
             ...user,
             token
