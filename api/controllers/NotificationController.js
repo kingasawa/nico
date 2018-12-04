@@ -30,12 +30,13 @@ module.exports = {
 
   app: async(req,res)=> {
     res.send(200);
-    let params = req.allParams();
+    let {shop} = req.allParams();
     // console.log('event app/uninstalled',params);
 
-    let foundShop = await Promise.resolve(Shop.findOne({name:params.shop}));
-    Shop.destroy({id:foundShop.id}).exec(function(){});
-    ShopifyToken.destroy({shop:foundShop.id}).exec(function(){})
+    let foundShop = await Shop.findOne({name:shop});
+    Shop.destroy({id:foundShop.id}).then((result)=>{
+      console.log('remove shop from shopify', result);
+    });
 
   },
 

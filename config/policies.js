@@ -21,6 +21,7 @@ module.exports.policies = {
   'jwt/index': 'tokenAuthenticated',
   // Payment v2 bitgo
   'user/*': 'passportAuthenticated',
+  'ucp/*': 'passportAuthenticated',
   '*': true,
 
 };
