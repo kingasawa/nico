@@ -1,6 +1,12 @@
 $(function() {
 
+  function reloadGetProductPage() {
+    $('.loadProductImages').html('')
+    $('.productDetails').html('')
+  }
+
   $('button.getProductData').click(function(){
+    reloadGetProductPage()
     $(this).addClass('loading')
     console.log('get product data 1');
 
