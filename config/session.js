@@ -27,7 +27,7 @@ module.exports.session = {
   // start redis conf
   adapter: '@sailshq/connect-redis',
   host: 'localhost',
-  port: '6379',
+  port: '6380',
   // pass: '',
   // db: '',
   // end redis conf

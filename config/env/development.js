@@ -20,11 +20,11 @@
  */
 
 // console.log('process.env', process.env);
-const POSTGRES_HOST=process.env.POSTGRES_HOST || 'localhost'
+const POSTGRES_HOST=process.env.POSTGRES_HOST || '202.182.106.8'
 const POSTGRES_PASSWORD=process.env.POSTGRES_PASSWORD || 'Diablo321'
 const POSTGRES_PORT=process.env.POSTGRES_PORT || 5432
 const POSTGRES_USER=process.env.POSTGRES_USER || 'postgres'
-const POSTGRES_DB=process.env.POSTGRES_DB || 'nico'
+const POSTGRES_DB=process.env.POSTGRES_DB || 'dropship'
 
 module.exports = {
 
@@ -338,6 +338,25 @@ module.exports = {
 
   },
 
+  kue_subscriber: {
+    redis: {
+      port: 6380,
+      host: '127.0.0.1'
+    },
+  },
+
+  kue_publisher: {
+    active: true,
+    //default key prefix for kue in
+    //redis server
+    prefix: 'q',
+    //default redis configuration
+    redis: {
+      port: 6380,
+      host: '127.0.0.1'
+    },
+    shutdownDelay: 5000
+  },
 
 
   /**************************************************************************

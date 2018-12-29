@@ -25,6 +25,8 @@
     "sails": "1.0.1",
     "sails-disk": "1.0.1",
     "sails-hook-grunt": "3.0.2",
+    "sails-hook-kue_publisher": "^1.0.0",
+    "sails-hook-kue_subscriber": "^1.0.0",
     "sails-hook-orm": "2.0.0-16",
     "sails-hook-sockets": "1.4.0",
     "sails-postgresql": "1.0.1",

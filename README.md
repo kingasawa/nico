@@ -16,6 +16,6 @@ kubectl apply -f service.yml
   ```
 ## Dev
 ### Start postgres
-docker run -d --name payment -p 5435:5432 -e POSTGRES_DB=syncfab -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres postgres:9-alpine
+docker run -d --name infinity -p 5435:5432 -e POSTGRES_DB=nico -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=Tu)!Tr#H4ck postgres:9-alpine
 
 

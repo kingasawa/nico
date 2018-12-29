@@ -96,7 +96,7 @@
             <td class="product-gtin"><%= _.get(product,'gtin','') %></td>
             <td class="product-price"><h3 class="ui blue header">$<%= _.get(product,'price','') %></h3></td>
             <td class="product-stock"><h3 class="ui header"><%= _.get(product,'stock','') %></h3></td>
-            <td class="product-owner"><%= _.get(product,'owner','') %></td>
+            <td class="product-owner"><%= _.get(product,'owner.username','') %></td>
             <td class="product-status"><span class="ui horizontal label <%= _.get(product,'status','') %>"><%= _.get(product,'status','') %></span></td>
           </tr>
         <% }) %>
@@ -106,22 +106,22 @@
   </div>
 </div>
 
-<div class="ui mini modal">
+<div class="ui mini modal syncToStore" id="selectStoreModal">
   <i class="close icon"></i>
   <div class="header">
     Select store to push
   </div>
   <div class="content">
-    <select class="ui fluid dropdown">
+    <select class="ui fluid dropdown" name="shop">
       <% _.each(shops,function(shop){ %>
         <option value="<%= shop.name %>"><%= shop.name %></option>
       <% }) %>
     </select>
   </div>
   <div class="actions">
-    <div class="ui positive right labeled icon button">
+    <button class="ui positive right labeled icon button push-product-confirm">
       Push now
       <i class="checkmark icon"></i>
-    </div>
+    </button>
   </div>
 </div>

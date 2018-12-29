@@ -64,14 +64,20 @@ module.exports = {
     let { productid, owner, stock, title, description, price, brand, upc, size, color, images, category } = params
     if(stock !== 'Available'){
       return {
-        error: 'not available'
+        error: 'this product is not available, can not add to system'
+      }
+    }
+
+    let findProduct = await Product.findOne({productid})
+    if(findProduct) {
+      return {
+        error: `this product is existed (${findProduct.id}), can not duplicate`
       }
     }
 
     let variants = []
     let options = []
     if(size.length < 1 && color.length < 1){
-      console.log('ko co cai nao');
       variants = [{
         title, price,
         compare_at_price:price,
@@ -81,7 +87,6 @@ module.exports = {
         inventory_quantity: 5
       }]
     } else if (size.length < 1 && color.length > 0){
-      console.log('ko co size , co color');
       _.each(color,(c,i)=>{
         variants.push({
           title: c ,

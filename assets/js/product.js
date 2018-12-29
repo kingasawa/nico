@@ -73,7 +73,7 @@ $(function() {
       $('button.quickAddProduct').removeClass('loading')
       if(result.error){
         noty({
-          text: 'this product is not available, can not add to system',
+          text: result.error,
           type: 'error',
         });
         return false;
@@ -128,12 +128,13 @@ $(function() {
 
 
   //SYNC PRODUCT
+  let countPushed;
+  let countSync;
+  let selectedProducts;
   $('div.sync-product').click(function(){
     let type = $(this).attr('data-text');
-    let countPushed;
-    let countSync;
 
-    let selectedProducts = $('tr.product-picked').map(function() {
+    selectedProducts = $('tr.product-picked').map(function() {
       let checkImg = $(this).find('td.product-image img').attr('src').length;
       let checkGtin = $(this).find('td.product-gtin').text().length;
       let checkStore = $(this).find('td.product-store').text().length;
@@ -144,6 +145,31 @@ $(function() {
     }).get();
 
     countSync = selectedProducts.length;
-    console.log('sync product',{countSync,selectedProducts});
+    // $('#sync-product-progress').data('total') = countSync
+    $('.modal.syncToStore').modal('show')
+
   })
+
+  $('.push-product-confirm').click(function(){
+    if(countSync === 0){
+      new Noty({
+        type: 'error',
+        layout: 'topRight',
+        text: `All products are not allowed to sync, please remove store, add Gtin and add image`,
+        timeout: 3000
+      }).show();
+      return false;
+    }
+    let shop = $('#selectStoreModal select[name=shop]').val();
+    $(this).attr('disabled');
+    $('.modal.syncToStore').modal('hide')
+    console.log('selectedProducts',{selectedProducts,shop,countSync} );
+    // $('div.progress').removeClass('hidden');
+    // $('div.progress-bar').addClass('progress-bar-success')
+    // $('div.progress-bar').html(`Push products to ${shop}`)
+    socket.get(`/product/sync`,{selectedProducts,shop},function(){});
+  })
+
+  // $('#example1').progress();
+
 });

@@ -12,7 +12,8 @@ module.exports = {
       type: 'string'
     },
     store:{
-      type: 'string'
+      type: 'string',
+      allowNull: true
     },
     compare_at_price: {
       type: 'number'
@@ -89,6 +90,10 @@ module.exports = {
     productid:{
       type: 'string',
       unique: true
+    },
+    sync_id: {
+      type: 'string',
+      allowNull: true
     },
     productpage:{
       type: 'string'

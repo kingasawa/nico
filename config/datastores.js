@@ -35,7 +35,7 @@ module.exports.datastores = {
   default: {
 
     adapter: require('sails-postgresql'),
-    url: 'postgresql://nicecode:Tu)!Tr#H4ck@localhost:5432/postgres'
+    url: 'postgresql://postgres:postgres@202.182.106.8:5435/nico' // unused
     /***************************************************************************
     *                                                                          *
     * Want to use a different database during development?                     *
